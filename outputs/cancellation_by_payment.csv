@@ -1,6 +1,6 @@
 payment_method,orders,cancel_rate_pct,return_rate_pct
-Cash on Delivery,7716,8.42,4.77
-Credit Card,3542,3.84,4.88
-InstaPay,706,3.54,4.39
-Mobile Wallet,2064,3.39,4.89
-Unknown,299,7.36,7.02
+Cash on Delivery,7599,8.46,4.76
+Credit Card,3505,3.79,4.88
+InstaPay,698,3.3,4.44
+Mobile Wallet,2047,3.37,4.93
+Unknown,297,7.41,7.07

@@ -4,14 +4,15 @@
     "missing_payment_method": 299,
     "missing_city": 78,
     "city_values_before": 32,
-    "city_values_after": 13,
-    "orphan_items_removed": 0
+    "city_values_after": 12,
+    "orders_removed_missing_city": 181,
+    "orphan_items_removed": 293
   },
   "kpis": {
-    "net_revenue": 46261528,
-    "delivered_orders": 12730,
-    "active_customers": 5007,
-    "avg_order_value": 3634,
+    "net_revenue": 45515176,
+    "delivered_orders": 12570,
+    "active_customers": 4942,
+    "avg_order_value": 3621,
     "gross_margin_pct": 17.5,
     "repeat_customer_rate_pct": 52.7,
     "cancel_rate_pct": 6.3,
@@ -20,64 +21,64 @@
   "model": {
     "cutoff": "2026-07-31",
     "horizon_end": "2026-10-31",
-    "customers_scored": 4410,
+    "customers_scored": 4350,
     "churn_rate_pct": 83.2,
-    "test_size": 1103,
+    "test_size": 1088,
     "results": [
       {
         "model": "Baseline (recency only)",
-        "roc_auc": 0.844,
-        "pr_auc": 0.963,
+        "roc_auc": 0.833,
+        "pr_auc": 0.961,
         "precision": null,
         "recall": null
       },
       {
         "model": "Logistic regression",
-        "roc_auc": 0.854,
+        "roc_auc": 0.853,
         "pr_auc": 0.966,
-        "precision": 0.857,
-        "recall": 0.976
+        "precision": 0.868,
+        "recall": 0.966
       },
       {
         "model": "Gradient boosting",
         "roc_auc": 0.845,
-        "pr_auc": 0.963,
-        "precision": 0.868,
-        "recall": 0.968
+        "pr_auc": 0.965,
+        "precision": 0.871,
+        "recall": 0.957
       }
     ],
     "feature_importance": [
       {
         "feature": "recency_days",
-        "importance": 0.2165
+        "importance": 0.2313
       },
       {
         "feature": "avg_days_between_orders",
-        "importance": 0.0319
+        "importance": 0.0231
       },
       {
-        "feature": "tenure_days",
-        "importance": 0.0096
-      },
-      {
-        "feature": "channel_Referral",
-        "importance": 0.0061
+        "feature": "monetary",
+        "importance": 0.0097
       },
       {
         "feature": "channel_Paid Ads",
         "importance": 0.0059
       },
       {
-        "feature": "monetary",
-        "importance": 0.0054
+        "feature": "tenure_days",
+        "importance": 0.005
       },
       {
-        "feature": "avg_discount_pct",
-        "importance": 0.002
+        "feature": "avg_order_value",
+        "importance": 0.0032
       },
       {
-        "feature": "channel_Social",
-        "importance": 0.0012
+        "feature": "channel_Referral",
+        "importance": 0.003
+      },
+      {
+        "feature": "return_rate",
+        "importance": 0.0021
       }
     ]
   },

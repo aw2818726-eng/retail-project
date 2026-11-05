@@ -8,14 +8,14 @@ End-to-end analysis of an Egyptian online retailer: data cleaning, BigQuery SQL,
 
 | Question | Answer |
 |---|---|
-| How big is the business? | 46.3M EGP net revenue, 12,730 delivered orders, 17.5% gross margin |
+| How big is the business? | 45.5M EGP net revenue, 12,570 delivered orders, 17.5% gross margin |
 | What happened on White Friday 2025? | Revenue spiked to 2.7M EGP but gross profit was about zero: deep discounts erased the margin |
 | Which category matters? | Electronics is 67% of revenue at a 10% margin; Beauty (50%) and Fashion (43%) earn far more per sale |
 | Do discounts pay off? | Not for Electronics: at 40-50% off it loses about 56% on each sale |
-| Who are the best customers? | 986 "Champions" (20% of customers) bring 42% of revenue |
+| Who are the best customers? | 973 "Champions" (20% of customers) bring 42% of revenue |
 | Best acquisition channel? | Referral: 65% repeat rate and 12.2k EGP per customer vs 41% and 6.5k for paid ads |
-| Payment risk? | Cash on delivery cancels 8.4% of orders vs 3.4-3.8% for prepaid methods |
-| Does the churn model help? | Barely. ROC-AUC 0.854 (logistic regression) vs 0.844 for a recency-only baseline, so "days since last order" does most of the work |
+| Payment risk? | Cash on delivery cancels 8.5% of orders vs 3.3-3.8% for prepaid methods |
+| Does the churn model help? | Barely. ROC-AUC 0.853 (logistic regression) vs 0.833 for a recency-only baseline, so "days since last order" does most of the work |
 
 ## What's inside
 
@@ -29,7 +29,7 @@ dashboard/     index.html, a static interactive dashboard (Chart.js, works offli
 
 ## Method
 
-1. **Clean:** remove duplicate orders (57), standardize 32 city spellings (Arabic and English) to 13, label missing payment methods, drop orphan items.
+1. **Clean:** remove duplicate orders (57), standardize 32 city spellings (Arabic and English) to 12 cities, drop the 78 customers with no city (and their 181 orders), label missing payment methods, and drop items whose order was removed.
 2. **KPIs:** revenue, margin, AOV, repeat rate, cancellation and return rates on delivered orders.
 3. **RFM segmentation:** recency, frequency, monetary quintiles grouped into six named segments.
 4. **Cohort retention:** share of each signup month's buyers who order again in months 1-11.

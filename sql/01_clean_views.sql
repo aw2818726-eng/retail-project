@@ -3,23 +3,23 @@
 -- Raw tables expected in `my-first-pro-504117.egypt_retail`: customers, products, orders, order_items
 -- (see sql/load_to_bigquery.sh).
 
--- 1) Customers: standardise city spellings (case, whitespace, Arabic names) and fill missing values.
+-- 1) Customers: standardise city spellings (case, whitespace, Arabic names) and drop customers with no city.
 CREATE OR REPLACE VIEW `my-first-pro-504117.egypt_retail.clean_customers` AS
 SELECT
   customer_id,
   signup_date,
   acquisition_channel,
   CASE
-    WHEN city IS NULL OR TRIM(city) = '' THEN 'Unknown'
     WHEN TRIM(city) = 'القاهرة' THEN 'Cairo'
     WHEN TRIM(city) = 'الجيزة' THEN 'Giza'
     WHEN TRIM(city) = 'الإسكندرية' THEN 'Alexandria'
     WHEN LOWER(TRIM(city)) = 'alex' THEN 'Alexandria'
     ELSE INITCAP(TRIM(city))
   END AS city
-FROM `my-first-pro-504117.egypt_retail.customers`;
+FROM `my-first-pro-504117.egypt_retail.customers`
+WHERE city IS NOT NULL AND TRIM(city) != '';
 
--- 2) Orders: drop exact duplicate order_ids and label missing payment methods.
+-- 2) Orders: drop exact duplicate order_ids, orders of customers removed above, and label missing payment methods.
 CREATE OR REPLACE VIEW `my-first-pro-504117.egypt_retail.clean_orders` AS
 SELECT
   order_id,
@@ -30,7 +30,7 @@ SELECT
   order_status,
   shipping_fee
 FROM `my-first-pro-504117.egypt_retail.orders`
-WHERE TRUE
+WHERE customer_id IN (SELECT customer_id FROM `my-first-pro-504117.egypt_retail.clean_customers`)
 QUALIFY ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY order_date) = 1;
 
 -- 3) Line-level fact view: revenue and gross profit per order line.

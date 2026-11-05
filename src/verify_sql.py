@@ -49,8 +49,8 @@ def main():
 
     dq = run_file(con, "01_clean_views.sql").iloc[0]
     metrics = json.loads((ROOT / "outputs" / "metrics.json").read_text())["data_quality"]
-    checks.append(("01 duplicate orders removed",
-                   int(dq.raw_orders - dq.clean_orders) == metrics["duplicate_orders_removed"]))
+    checks.append(("01 orders removed (duplicates + missing city)",
+                   int(dq.raw_orders - dq.clean_orders) == metrics["duplicate_orders_removed"] + metrics["orders_removed_missing_city"]))
     checks.append(("01 city spellings after cleaning",
                    int(dq.city_values_after) == metrics["city_values_after"]))
 

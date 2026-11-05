@@ -47,9 +47,12 @@ def load_and_clean():
     customers["city"] = customers.city.map(lambda c: c.title() if isinstance(c, str) else c)
     customers["city"] = customers.city.replace({"Alex": "Alexandria"})
     dq["missing_city"] = int(customers.city.isna().sum())
-    customers["city"] = customers.city.fillna("Unknown")
     dq["city_values_before"] = int(raw_city.nunique())
+    # customers with no city cannot be placed in any city view, so they (and their orders) are dropped
+    customers = customers[customers.city.notna()].copy()
     dq["city_values_after"] = int(customers.city.nunique())
+    dq["orders_removed_missing_city"] = int((~orders.customer_id.isin(customers.customer_id)).sum())
+    orders = orders[orders.customer_id.isin(customers.customer_id)].copy()
 
     # items must belong to a known order
     dq["orphan_items_removed"] = int((~items.order_id.isin(orders.order_id)).sum())
