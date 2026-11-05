@@ -1,0 +1,5 @@
+pandas>=3.0
+numpy>=2.0
+scikit-learn>=1.5
+duckdb>=1.0
+sqlglot>=25.0

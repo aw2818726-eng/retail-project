@@ -1,0 +1,81 @@
+product_id,product_name,category,base_price,cost_price
+P001,Wireless Earbuds,Electronics,11485,10062.15
+P002,Bluetooth Speaker,Electronics,15365,13064.29
+P003,Smart Watch,Electronics,1105,908.79
+P004,Power Bank,Electronics,10985,9242.71
+P005,Phone Case,Electronics,1245,1089.33
+P006,USB-C Charger,Electronics,2865,2370.28
+P007,LED Monitor,Electronics,7340,6148.89
+P008,Laptop Stand,Electronics,3680,3301.98
+P009,Mechanical Keyboard,Electronics,5395,4928.97
+P010,Webcam,Electronics,13815,11837.16
+P011,Wi-Fi Router,Electronics,10870,9615.03
+P012,Tablet,Electronics,22600,18773.55
+P013,Gaming Mouse,Electronics,11660,10500.25
+P014,Smart Bulb,Electronics,3990,3653.32
+P015,Cotton T-Shirt,Fashion,355,182.25
+P016,Denim Jeans,Fashion,1390,634.53
+P017,Hooded Sweatshirt,Fashion,530,305.23
+P018,Summer Dress,Fashion,735,449.9
+P019,Abaya,Fashion,335,185.88
+P020,Leather Belt,Fashion,420,216.74
+P021,Sneakers,Fashion,685,331.17
+P022,Sandals,Fashion,1255,737.35
+P023,Backpack,Fashion,1700,831.38
+P024,Handbag,Fashion,610,361.32
+P025,Scarf,Fashion,1205,749.57
+P026,Sunglasses,Fashion,395,256.17
+P027,Polo Shirt,Fashion,1530,791.06
+P028,Jacket,Fashion,1270,627.19
+P029,Socks 5-Pack,Fashion,720,386.1
+P030,Classic Watch,Fashion,345,216.35
+P031,Wallet,Fashion,1165,647.48
+P032,Cap,Fashion,920,457.24
+P033,Non-stick Pan Set,Home & Kitchen,1390,961.08
+P034,Blender,Home & Kitchen,1065,778.91
+P035,Air Fryer,Home & Kitchen,165,117.17
+P036,Bed Sheet Set,Home & Kitchen,320,228.68
+P037,Towel Set,Home & Kitchen,2990,2220.28
+P038,Food Container Set,Home & Kitchen,185,135.97
+P039,Electric Kettle,Home & Kitchen,420,283.12
+P040,Dinner Set,Home & Kitchen,1060,693.85
+P041,Curtains,Home & Kitchen,1540,1101.07
+P042,Floor Lamp,Home & Kitchen,2605,1962.31
+P043,Storage Boxes,Home & Kitchen,160,122.49
+P044,Pillow Pair,Home & Kitchen,1890,1334.53
+P045,Cutlery Set,Home & Kitchen,265,185.46
+P046,Coffee Maker,Home & Kitchen,255,170.49
+P047,Steam Iron,Home & Kitchen,715,514.11
+P048,Wall Clock,Home & Kitchen,430,292.04
+P049,Face Wash,Beauty,230,133.97
+P050,Moisturizer,Beauty,115,46.88
+P051,Sunscreen SPF50,Beauty,1145,526.77
+P052,Hair Oil,Beauty,175,71.08
+P053,Shampoo,Beauty,785,358.45
+P054,Perfume 100ml,Beauty,300,163.67
+P055,Lipstick,Beauty,105,44.05
+P056,Foundation,Beauty,305,170.66
+P057,Eyeliner,Beauty,195,94.41
+P058,Body Lotion,Beauty,135,57.87
+P059,Hair Dryer,Beauty,740,337.52
+P060,Beard Trimmer,Beauty,285,135.24
+P061,Olive Oil 1L,Groceries,175,146.13
+P062,Basmati Rice 5kg,Groceries,40,34.34
+P063,Pasta Pack,Groceries,35,29.77
+P064,Tea Box,Groceries,80,70.84
+P065,Coffee Beans 500g,Groceries,40,33.65
+P066,Honey Jar,Groceries,50,40.37
+P067,Dates 1kg,Groceries,170,147.1
+P068,Mixed Nuts,Groceries,175,157.1
+P069,Cooking Oil 2L,Groceries,530,451.44
+P070,Sugar 5kg,Groceries,315,280.89
+P071,Canned Tuna 6-Pack,Groceries,130,110.62
+P072,Cheese Pack,Groceries,500,421.41
+P073,Yoga Mat,Sports,710,504.07
+P074,Dumbbell Set,Sports,445,299.0
+P075,Football,Sports,635,474.19
+P076,Running Shoes,Sports,2260,1391.2
+P077,Resistance Bands,Sports,240,160.05
+P078,Water Bottle,Sports,215,139.57
+P079,Gym Bag,Sports,380,247.41
+P080,Jump Rope,Sports,1630,1034.57

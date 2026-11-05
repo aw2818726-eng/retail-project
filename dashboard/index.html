@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Egypt E-commerce Sales Dashboard</title>
+<style>
+:root{color-scheme:light;--bg:#f6f6f3;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#7a7974;--line:#e3e2dc;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--heat:42,120,214}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#121211;--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#97968e;--line:#2c2c2a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--heat:57,135,229}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#121211;--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#97968e;--line:#2c2c2a;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--heat:57,135,229}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:24px 16px 48px}
+header{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+h1{font-size:1.5rem;margin:0}
+.sub{color:var(--ink2);margin:4px 0 0;max-width:62ch}
+.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.78rem;color:var(--ink2);background:var(--surface)}
+button.theme{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer;font:inherit}
+.filters{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.filters label{display:flex;flex-direction:column;font-size:.78rem;color:var(--ink2);gap:2px}
+select{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:170px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.tile .k{font-size:.78rem;color:var(--ink2)}
+.tile .v{font-size:1.6rem;font-weight:650;letter-spacing:-.01em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h2{font-size:1rem;margin:0 0 2px}
+.card p.why{margin:0 0 10px;color:var(--ink2);font-size:.85rem}
+.chart{position:relative;height:280px}
+.wide{grid-column:1/-1}
+table{border-collapse:collapse;width:100%;font-size:.82rem}
+th,td{padding:4px 6px;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+.heat td{min-width:38px}
+.scroll{overflow-x:auto}
+details{margin-top:10px;font-size:.85rem}summary{cursor:pointer;color:var(--ink2)}
+footer{color:var(--muted);font-size:.8rem;margin-top:24px}
+.insights{margin:0;padding-left:1.1rem;color:var(--ink2)}
+.insights li{margin:4px 0}
+.insights b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Egypt E-commerce Sales Dashboard</h1>
+    <p class="sub">Revenue, profit, customer segments, retention and cancellations for an online retailer, Jan 2025 – Oct 2026. Amounts in EGP.</p>
+    <span class="badge">Synthetic dataset — generated for this project, not real company data</span>
+  </div>
+  <button class="theme" id="theme" type="button">Toggle theme</button>
+</header>
+
+<div class="filters">
+  <label>City<select id="city"></select></label>
+  <label>Category<select id="cat"></select></label>
+</div>
+
+<div class="tiles" id="tiles"></div>
+
+<div class="grid">
+  <section class="card wide">
+    <h2>Monthly revenue and gross profit</h2>
+    <p class="why">Both lines are in EGP on one axis. Respond to the filters above.</p>
+    <div class="chart"><canvas id="c_month" role="img" aria-label="Monthly revenue and gross profit line chart"></canvas></div>
+    <details><summary>Table view</summary><div class="scroll"><table id="t_month"></table></div></details>
+  </section>
+
+  <section class="card">
+    <h2>Gross margin by category</h2>
+    <p class="why">Electronics drives revenue but earns the thinnest margin. Filtered by city.</p>
+    <div class="chart"><canvas id="c_cat" role="img" aria-label="Gross margin percent by category"></canvas></div>
+  </section>
+
+  <section class="card">
+    <h2>Share of revenue by customer segment (RFM)</h2>
+    <p class="why">Champions are 20% of customers and 42% of revenue.</p>
+    <div class="chart"><canvas id="c_rfm" role="img" aria-label="Customer share and revenue share by RFM segment"></canvas></div>
+  </section>
+
+  <section class="card">
+    <h2>Repeat-buyer rate by acquisition channel</h2>
+    <p class="why">Referral customers come back most; paid ads least.</p>
+    <div class="chart"><canvas id="c_chan" role="img" aria-label="Repeat buyer rate by channel"></canvas></div>
+  </section>
+
+  <section class="card">
+    <h2>Cancellation rate by payment method</h2>
+    <p class="why">Cash on delivery cancels more than twice as often as prepaid methods.</p>
+    <div class="chart"><canvas id="c_pay" role="img" aria-label="Cancellation rate by payment method"></canvas></div>
+  </section>
+
+  <section class="card wide">
+    <h2>Cohort retention (% of a signup month's buyers who order again)</h2>
+    <p class="why">Rows are signup months, columns are months since the first order. Darker means higher retention.</p>
+    <div class="scroll"><table class="heat" id="cohort"></table></div>
+  </section>
+
+  <section class="card wide">
+    <h2>What the data says</h2>
+    <ul class="insights" id="insights"></ul>
+  </section>
+</div>
+
+<footer>
+  Pipeline: Python (pandas, scikit-learn) and BigQuery SQL. Data is synthetic with deliberately messy fields (duplicate orders, inconsistent city spellings, missing payment methods). October 2026 has no new signups because the generator stops creating customers at 29 Sep 2026. Source code: see the repository README.
+</footer>
+</div>
+<script src="vendor/chart.umd.js"></script>
+<script src="data.js"></script>
+<script>
+const D = window.DASHBOARD_DATA;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = n => Math.round(n).toLocaleString("en-US");
+const mil = n => (n/1e6).toFixed(1) + "M";
+const el = id => document.getElementById(id);
+
+const cities = ["All cities", ...[...new Set(D.facts.map(f => f.city))].sort()];
+const cats = ["All categories", ...[...new Set(D.facts.map(f => f.category))].sort()];
+el("city").innerHTML = cities.map(c => `<option>${c}</option>`).join("");
+el("cat").innerHTML = cats.map(c => `<option>${c}</option>`).join("");
+
+let charts = {};
+function mk(id, cfg){ if(charts[id]) charts[id].destroy(); charts[id] = new Chart(el(id), cfg); }
+
+function baseOpts(extra={}){
+  const ink2 = css("--ink2"), line = css("--line");
+  return Object.assign({responsive:true, maintainAspectRatio:false, animation:false,
+    plugins:{legend:{labels:{color:ink2, boxWidth:12}}},
+    scales:{x:{ticks:{color:ink2},grid:{display:false}},y:{ticks:{color:ink2},grid:{color:line}}}}, extra);
+}
+
+function render(){
+  const city = el("city").value, cat = el("cat").value;
+  const f = D.facts.filter(x => (city==="All cities"||x.city===city) && (cat==="All categories"||x.category===cat));
+  const rev = f.reduce((a,x)=>a+x.revenue,0), pr = f.reduce((a,x)=>a+x.profit,0), un = f.reduce((a,x)=>a+x.units,0);
+  const tiles = [["Revenue", mil(rev)+" EGP"],["Gross profit", mil(pr)+" EGP"],["Gross margin", (rev? (pr/rev*100):0).toFixed(1)+"%"],["Units sold", fmt(un)]];
+  el("tiles").innerHTML = tiles.map(t=>`<div class="tile"><div class="k">${t[0]}</div><div class="v">${t[1]}</div></div>`).join("");
+
+  const months = D.monthly.map(m=>m.month);
+  const byM = {}; f.forEach(x=>{(byM[x.month] ||= {r:0,p:0}); byM[x.month].r+=x.revenue; byM[x.month].p+=x.profit;});
+  const mr = months.map(m=>byM[m]?byM[m].r:0), mp = months.map(m=>byM[m]?byM[m].p:0);
+  const s1 = css("--s1"), s2 = css("--s2");
+  mk("c_month",{type:"line",data:{labels:months,datasets:[
+    {label:"Revenue",data:mr,borderColor:s1,backgroundColor:s1,borderWidth:2,pointRadius:3,tension:.25},
+    {label:"Gross profit",data:mp,borderColor:s2,backgroundColor:s2,borderWidth:2,pointRadius:3,tension:.25}]},
+    options:baseOpts({interaction:{mode:"index",intersect:false},plugins:{legend:{labels:{color:css("--ink2"),boxWidth:12}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)} EGP`}}}})});
+  el("t_month").innerHTML = "<tr><th>Month</th><th>Revenue</th><th>Gross profit</th></tr>" +
+    months.map((m,i)=>`<tr><td>${m}</td><td>${fmt(mr[i])}</td><td>${fmt(mp[i])}</td></tr>`).join("");
+
+  // category margin (city filter only)
+  const fc = D.facts.filter(x => city==="All cities"||x.city===city);
+  const byC = {}; fc.forEach(x=>{(byC[x.category] ||= {r:0,p:0}); byC[x.category].r+=x.revenue; byC[x.category].p+=x.profit;});
+  const cl = Object.keys(byC).sort((a,b)=>byC[b].p/byC[b].r-byC[a].p/byC[a].r);
+  mk("c_cat",{type:"bar",data:{labels:cl,datasets:[{label:"Gross margin %",data:cl.map(c=>byC[c].r?byC[c].p/byC[c].r*100:0),
+    backgroundColor:cl.map(c=>cat!=="All categories"&&c!==cat?css("--line"):s1),borderRadius:4}]},
+    options:baseOpts({indexAxis:"y",plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.x.toFixed(1)}% margin, ${mil(byC[c.label].r)} EGP revenue`}}}})});
+
+  // RFM
+  mk("c_rfm",{type:"bar",data:{labels:D.rfm.map(r=>r.segment),datasets:[
+    {label:"% of customers",data:D.rfm.map(r=>r.customer_share_pct),backgroundColor:s1,borderRadius:4},
+    {label:"% of revenue",data:D.rfm.map(r=>r.revenue_share_pct),backgroundColor:s2,borderRadius:4}]},
+    options:baseOpts({plugins:{legend:{labels:{color:css("--ink2"),boxWidth:12}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}}})});
+
+  // channels
+  const ch = [...D.channels].sort((a,b)=>b.repeat_rate_pct-a.repeat_rate_pct);
+  mk("c_chan",{type:"bar",data:{labels:ch.map(c=>c.acquisition_channel),datasets:[{label:"Repeat buyer rate %",data:ch.map(c=>c.repeat_rate_pct),backgroundColor:s1,borderRadius:4}]},
+    options:baseOpts({plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toFixed(1)}% repeat, ${fmt(ch[c.dataIndex].revenue_per_customer)} EGP per customer`}}}})});
+
+  // payment
+  const pay = [...D.cancellation].filter(p=>p.payment_method!=="Unknown").sort((a,b)=>b.cancel_rate_pct-a.cancel_rate_pct);
+  mk("c_pay",{type:"bar",data:{labels:pay.map(p=>p.payment_method),datasets:[{label:"Cancellation rate %",data:pay.map(p=>p.cancel_rate_pct),backgroundColor:s1,borderRadius:4}]},
+    options:baseOpts({plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toFixed(1)}% cancelled of ${fmt(pay[c.dataIndex].orders)} orders`}}}})});
+}
+
+function renderCohort(){
+  const maxM = 12, rgb = css("--heat");
+  let h = "<tr><th>Signup month</th><th>Buyers</th>" + Array.from({length:maxM},(_,i)=>`<th>M${i}</th>`).join("") + "</tr>";
+  D.cohorts.forEach(c=>{
+    h += `<tr><td>${c.cohort}</td><td>${c.size}</td>` + Array.from({length:maxM},(_,i)=>{
+      const v = c.retention[i];
+      if(v===undefined || v===null) return "<td></td>";
+      const a = Math.min(1, v/30);
+      return `<td style="background:rgba(${rgb},${(0.08+a*0.8).toFixed(2)});color:${a>.55?'#fff':'inherit'}" title="${v}%">${Math.round(v)}</td>`;
+    }).join("") + "</tr>";
+  });
+  el("cohort").innerHTML = h;
+}
+
+function insights(){
+  const m = D.monthly, nov = m.find(x=>x.month==="2025-11");
+  const seg = Object.fromEntries(D.rfm.map(r=>[r.segment,r]));
+  const ch = Object.fromEntries(D.channels.map(c=>[c.acquisition_channel,c]));
+  const cod = D.cancellation.find(p=>p.payment_method==="Cash on Delivery"), card = D.cancellation.find(p=>p.payment_method==="Credit Card");
+  const L = [
+    `<b>Revenue grew steadily</b>, from ${mil(m[0].revenue)} EGP in Jan 2025 to ${mil(m.find(x=>x.month==="2026-09").revenue)} EGP in Sep 2026, and returning customers now generate more than half of monthly revenue.`,
+    `<b>White Friday 2025 was a revenue spike that earned nothing.</b> Nov 2025 revenue hit ${mil(nov.revenue)} EGP while gross profit was ${fmt(nov.profit)} EGP, because deep discounts wiped out margin. See sql/05 for discount bands: Electronics sold at 40-50% off loses 56% on each sale.`,
+    `<b>Electronics is 67% of revenue at a 10% margin</b>, while Beauty and Fashion earn 43-50%. Pushing the high-margin categories would lift profit faster than pushing volume.`,
+    `<b>${seg["Champions"].customers.toLocaleString()} Champions (${seg["Champions"].customer_share_pct}% of customers) bring ${seg["Champions"].revenue_share_pct}% of revenue.</b> The ${seg["At Risk"].customers.toLocaleString()} At Risk customers (${seg["At Risk"].revenue_share_pct}% of revenue) are the best win-back target.`,
+    `<b>Referral beats paid ads.</b> Referral customers repeat at ${ch["Referral"].repeat_rate_pct}% and spend ${fmt(ch["Referral"].revenue_per_customer)} EGP each, against ${ch["Paid Ads"].repeat_rate_pct}% and ${fmt(ch["Paid Ads"].revenue_per_customer)} EGP for paid ads.`,
+    `<b>Cash on delivery cancels ${(cod.cancel_rate_pct/card.cancel_rate_pct).toFixed(1)}x as often as cards</b> (${cod.cancel_rate_pct}% vs ${card.cancel_rate_pct}%). Nudging buyers to prepay would cut wasted deliveries.`,
+    `<b>Churn model caveat:</b> predicting who will not buy in the next 3 months reached ROC-AUC ${D.model.results[1].roc_auc}, only slightly above a recency-only baseline (${D.model.results[0].roc_auc}). Recency does almost all the work, so a simple "days since last order" rule is the practical choice.`
+  ];
+  el("insights").innerHTML = L.map(x=>`<li>${x}</li>`).join("");
+}
+
+el("city").addEventListener("change", render);
+el("cat").addEventListener("change", render);
+el("theme").addEventListener("click", ()=>{
+  const r = document.documentElement, dark = getComputedStyle(r).colorScheme==="dark";
+  r.setAttribute("data-theme", dark?"light":"dark"); render(); renderCohort();
+});
+render(); renderCohort(); insights();
+</script>
+</body>
+</html>

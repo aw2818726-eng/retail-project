@@ -1,0 +1,7 @@
+segment,customers,revenue,avg_recency_days,avg_orders,customer_share_pct,revenue_share_pct
+Champions,986,19533213.15,58.99,5.12,19.69,42.22
+At Risk,1033,10304238.7,424.37,2.92,20.63,22.27
+Loyal,985,9345016.0,157.3,2.7,19.67,20.2
+Hibernating,970,3118179.1,458.76,1.0,19.37,6.74
+New / Promising,629,2166937.05,87.66,1.0,12.56,4.68
+Needs Attention,404,1793944.1,211.16,1.0,8.07,3.88
